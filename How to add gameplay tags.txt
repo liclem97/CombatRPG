@@ -1,0 +1,5 @@
+1. Native Gameplay Tags : 인풋 태그 정의
+2. Input Config Data Asset : 인풋 태그를 인풋 액션에 매핑
+3. Custom Input Component: 인풋 바인딩 메소드 정의
+4. Binding Inputs: 인풋 콜백 정의
+5. Assign assets in editor: 에디터에서 필요한 에셋 채움

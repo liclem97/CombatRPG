@@ -15,5 +15,6 @@ class COMBATRPG_API AHeroCharacter : public ABaseCharacter
 public:
 	AHeroCharacter();
 
-
+protected:
+	virtual void BeginPlay() override;
 };

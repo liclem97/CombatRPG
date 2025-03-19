@@ -13,8 +13,9 @@ public class CombatRPG : ModuleRules
 			"CoreUObject",
 			"Engine",
 			"InputCore",
-			"GameplayTags"
-		});
+			"GameplayTags",
+            "EnhancedInput"
+        });
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });
 

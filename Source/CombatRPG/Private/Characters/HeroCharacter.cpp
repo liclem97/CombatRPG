@@ -9,6 +9,7 @@
 #include "Components/CapsuleComponent.h"
 #include "Components/Input/CombatInputComponent.h"
 #include "DataAssets/Input/DataAsset_InputConfig.h"
+#include "DataAssets/StartUpData/DataAsset_HeroStartUpData.h"
 #include "EnhancedInputSubsystems.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
@@ -43,12 +44,13 @@ void AHeroCharacter::PossessedBy(AController* NewController)
 {
 	Super::PossessedBy(NewController);
 
-	if (CombatAbilitySystemComponent && CombatAttributeSet)
+	// 소프트 오브젝트 레퍼런스 이므로 항상 유효하지 않기에 Null 체크로 확인함
+	if (!CharacterStartUpData.IsNull())
 	{
-		const FString ASCText = FString::Printf(TEXT("Owner Actor: %s, Avatar Actor: %s"), *CombatAbilitySystemComponent->GetOwnerActor()->GetActorLabel(), *CombatAbilitySystemComponent->GetAvatarActor()->GetActorLabel());
-		
-		Debug::Print(TEXT("Ability System Component Valid. ") + ASCText, FColor::Green);
-		Debug::Print(TEXT("AttributeSet Valid. ") + ASCText, FColor::Green);
+		if (UDataAsset_StartUpDataBase* LoadedData = CharacterStartUpData.LoadSynchronous())
+		{
+			LoadedData->GiveToAbilitySystemComponent(CombatAbilitySystemComponent);
+		}
 	}
 }
 

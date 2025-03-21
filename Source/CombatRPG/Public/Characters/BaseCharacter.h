@@ -9,6 +9,7 @@
 
 class UCombatAbilitySystemComponent;
 class UCombatAttributeSet;
+class UDataAsset_StartUpDataBase;
 
 UCLASS()
 class COMBATRPG_API ABaseCharacter : public ACharacter, public IAbilitySystemInterface
@@ -19,7 +20,7 @@ public:
 	ABaseCharacter();
 
 	//~ Begin IAbilitySystemInterface Interface.
-	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const;
+	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 	//~ End IAbilitySystemInterface Interface
 
 protected:
@@ -32,6 +33,9 @@ protected:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "AbilitySystem")
 	UCombatAttributeSet* CombatAttributeSet;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "CharacterData")
+	TSoftObjectPtr<UDataAsset_StartUpDataBase> CharacterStartUpData;
 
 public:
 	FORCEINLINE UCombatAbilitySystemComponent* GetCombatAbilitySystemComponent() const { return CombatAbilitySystemComponent; }

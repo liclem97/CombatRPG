@@ -29,6 +29,8 @@ void ABaseCharacter::PossessedBy(AController* NewController)
 	if (CombatAbilitySystemComponent)
 	{
 		CombatAbilitySystemComponent->InitAbilityActorInfo(this, this);
+
+		ensureMsgf(!CharacterStartUpData.IsNull(), TEXT("%s: Please assign start up data"), *GetName());
 	}
 }
 

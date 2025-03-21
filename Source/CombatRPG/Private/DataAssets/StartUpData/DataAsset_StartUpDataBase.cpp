@@ -6,15 +6,15 @@
 #include "AbilitySystem/Abilities/CombatGameplayAbility.h"
 #include "AbilitySystem/CombatAbilitySystemComponent.h"
 
-void UDataAsset_StartUpDataBase::GiveToAbilitySystemComponent(UCombatAbilitySystemComponent* InCombatASCToGive, int32 ApplyLevel)
+void UDataAsset_StartUpDataBase::GiveToAbilitySystemComponent(UCombatAbilitySystemComponent* InASCToGive, int32 ApplyLevel)
 {
-	check(InCombatASCToGive);
+	check(InASCToGive);
 
-	GrantAbilities(ActivateOnGivenAbilties, InCombatASCToGive, ApplyLevel);
-	GrantAbilities(ReactiveAbilities, InCombatASCToGive, ApplyLevel);
+	GrantAbilities(ActivateOnGivenAbilties, InASCToGive, ApplyLevel); // OnGiven 어빌리티를 수여함
+	GrantAbilities(ReactiveAbilities, InASCToGive, ApplyLevel); // 재사용 가능한 어빌리티를 수여함
 }
 
-void UDataAsset_StartUpDataBase::GrantAbilities(const TArray<TSubclassOf<UCombatGameplayAbility>>& InAbilitiesToGive, UCombatAbilitySystemComponent* InCombatASCToGive, int32 ApplyLevel)
+void UDataAsset_StartUpDataBase::GrantAbilities(const TArray<TSubclassOf<UCombatGameplayAbility>>& InAbilitiesToGive, UCombatAbilitySystemComponent* InASCToGive, int32 ApplyLevel)
 {
 	if (InAbilitiesToGive.IsEmpty()) return;
 
@@ -23,9 +23,9 @@ void UDataAsset_StartUpDataBase::GrantAbilities(const TArray<TSubclassOf<UCombat
 		if (!Ability) continue;
 
 		FGameplayAbilitySpec AbilitySpec(Ability);
-		AbilitySpec.SourceObject = InCombatASCToGive->GetAvatarActor();
+		AbilitySpec.SourceObject = InASCToGive->GetAvatarActor();
 		AbilitySpec.Level = ApplyLevel;
 
-		InCombatASCToGive->GiveAbility(AbilitySpec);
+		InASCToGive->GiveAbility(AbilitySpec);
 	}		
 }

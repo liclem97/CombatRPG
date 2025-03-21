@@ -3,6 +3,7 @@
 
 #include "Characters/HeroCharacter.h"
 
+#include "AbilitySystem/CombatAbilitySystemComponent.h"
 #include "Camera/CameraComponent.h"
 #include "CombatGameplayTags.h"
 #include "Components/CapsuleComponent.h"
@@ -38,6 +39,19 @@ AHeroCharacter::AHeroCharacter()
 	GetCharacterMovement()->BrakingDecelerationWalking = 2000.f;
 }
 
+void AHeroCharacter::PossessedBy(AController* NewController)
+{
+	Super::PossessedBy(NewController);
+
+	if (CombatAbilitySystemComponent && CombatAttributeSet)
+	{
+		const FString ASCText = FString::Printf(TEXT("Owner Actor: %s, Avatar Actor: %s"), *CombatAbilitySystemComponent->GetOwnerActor()->GetActorLabel(), *CombatAbilitySystemComponent->GetAvatarActor()->GetActorLabel());
+		
+		Debug::Print(TEXT("Ability System Component Valid. ") + ASCText, FColor::Green);
+		Debug::Print(TEXT("AttributeSet Valid. ") + ASCText, FColor::Green);
+	}
+}
+
 void AHeroCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {	
 	checkf(InputConfigDataAsset, TEXT("Check assign a valid data asset as input config"));
@@ -56,8 +70,6 @@ void AHeroCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 void AHeroCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-
-	Debug::Print("HeroCharacter BeginPlay");
 }
 
 void AHeroCharacter::Input_Move(const FInputActionValue& InputActionValue)

@@ -4,6 +4,7 @@
 #include "AbilitySystem/Abilities/CombatGameplayAbility.h"
 
 #include "AbilitySystem/CombatAbilitySystemComponent.h"
+#include "Components/Combat/PawnCombatComponent.h"
 
 // 어빌리티 시스템 컴포넌트에 어빌리티가 부여된 직후 호출.
 void UCombatGameplayAbility::OnGiveAbility(const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilitySpec& Spec)
@@ -30,4 +31,14 @@ void UCombatGameplayAbility::EndAbility(const FGameplayAbilitySpecHandle Handle,
 			ActorInfo->AbilitySystemComponent->ClearAbility(Handle);
 		}
 	}
+}
+
+UPawnCombatComponent* UCombatGameplayAbility::GetPawnCombatComponentFromActorInfo() const
+{	
+	return GetAvatarActorFromActorInfo()->FindComponentByClass<UPawnCombatComponent>();
+}
+
+UCombatAbilitySystemComponent* UCombatGameplayAbility::GetCombatAbilitySystemComponentFromActorInfo() const
+{	
+	return Cast<UCombatAbilitySystemComponent>(CurrentActorInfo->AbilitySystemComponent);
 }

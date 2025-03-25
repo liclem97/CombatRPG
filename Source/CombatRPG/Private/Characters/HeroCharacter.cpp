@@ -70,6 +70,8 @@ void AHeroCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 	UCombatInputComponent* CombatInputComponent = CastChecked<UCombatInputComponent>(PlayerInputComponent);
 	CombatInputComponent->BindNativeInputAction(InputConfigDataAsset, CombatGameplayTags::InputTag_Move, ETriggerEvent::Triggered, this, &AHeroCharacter::Input_Move);
 	CombatInputComponent->BindNativeInputAction(InputConfigDataAsset, CombatGameplayTags::InputTag_Look, ETriggerEvent::Triggered, this, &AHeroCharacter::Input_Look);
+
+	CombatInputComponent->BindAbilityInputAction(InputConfigDataAsset, this, &AHeroCharacter::Input_AbilityInputPressed, &AHeroCharacter::Input_AbilityInputReleased);
 }
 
 void AHeroCharacter::BeginPlay()
@@ -110,6 +112,16 @@ void AHeroCharacter::Input_Look(const FInputActionValue& InputActionValue)
 	{
 		AddControllerPitchInput(LookAxisVector.Y);
 	}
+}
+
+void AHeroCharacter::Input_AbilityInputPressed(FGameplayTag InInputTag)
+{
+	CombatAbilitySystemComponent->OnAbilityInputPressed(InInputTag);
+}
+
+void AHeroCharacter::Input_AbilityInputReleased(FGameplayTag InInputTag)
+{
+	CombatAbilitySystemComponent->OnAbilityInputReleased(InInputTag);
 }
 
 

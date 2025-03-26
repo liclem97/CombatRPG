@@ -6,6 +6,8 @@
 #include "AnimInstances/BaseAnimInstance.h"
 #include "HeroLinkedAnimInstance.generated.h"
 
+class UHeroAnimInstance;
+
 /**
  * 
  */
@@ -14,4 +16,7 @@ class COMBATRPG_API UHeroLinkedAnimInstance : public UBaseAnimInstance
 {
 	GENERATED_BODY()
 	
+public:
+	UFUNCTION(BlueprintPure, meta = (BlueprintThreadSafe))
+	UHeroAnimInstance* GetHeroAnimInstance() const;
 };

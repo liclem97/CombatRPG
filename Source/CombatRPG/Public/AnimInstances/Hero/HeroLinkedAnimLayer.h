@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "AnimInstances/BaseAnimInstance.h"
-#include "HeroLinkedAnimInstance.generated.h"
+#include "HeroLinkedAnimLayer.generated.h"
 
 class UHeroAnimInstance;
 
@@ -12,7 +12,7 @@ class UHeroAnimInstance;
  * 
  */
 UCLASS()
-class COMBATRPG_API UHeroLinkedAnimInstance : public UBaseAnimInstance
+class COMBATRPG_API UHeroLinkedAnimLayer : public UBaseAnimInstance
 {
 	GENERATED_BODY()
 	

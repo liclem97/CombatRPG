@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Items/Weapons/CombatWeaponBase.h"
+#include "Types/CombatStructTypes.h"
 #include "HeroWeapon.generated.h"
 
 /**
@@ -14,4 +15,8 @@ class COMBATRPG_API AHeroWeapon : public ACombatWeaponBase
 {
 	GENERATED_BODY()
 	
+public:
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "WeaponData")
+	FHeroWeaponData HeroWeaponData;
+
 };

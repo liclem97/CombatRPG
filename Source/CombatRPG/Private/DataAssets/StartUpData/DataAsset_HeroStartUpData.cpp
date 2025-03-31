@@ -6,11 +6,6 @@
 #include "AbilitySystem/Abilities/CombatGameplayAbility.h"
 #include "AbilitySystem/CombatAbilitySystemComponent.h"
 
-bool FHeroAbilitySet::IsValid() const
-{
-    return InputTag.IsValid() && AbilityToGrant;
-}
-
 void UDataAsset_HeroStartUpData::GiveToAbilitySystemComponent(UCombatAbilitySystemComponent* InASCToGive, int32 ApplyLevel)
 {
     Super::GiveToAbilitySystemComponent(InASCToGive, ApplyLevel);

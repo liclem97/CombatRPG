@@ -17,6 +17,6 @@ class COMBATRPG_API UHeroCombatComponent : public UPawnCombatComponent
 	GENERATED_BODY()
 	
 public:
-	UFUNCTION(BlueprintCallable, Category = "Hero|Combat")
+	UFUNCTION(BlueprintPure, Category = "Hero|Combat")
 	AHeroWeapon* GetHeroCarriedWeaponByTag(FGameplayTag InWeaponTag);
 };

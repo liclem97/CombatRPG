@@ -14,6 +14,11 @@ namespace CombatGameplayTags
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_UnequipRifle, "InputTag.UnequipRifle");
 
 	/** Player Tags **/
+	UE_DEFINE_GAMEPLAY_TAG(Player_Ability_Equip_Axe, "Player.Ability.Equip.Axe");
+	UE_DEFINE_GAMEPLAY_TAG(Player_Ability_Equip_Rifle, "Player.Ability.Equip.Rifle");
+	UE_DEFINE_GAMEPLAY_TAG(Player_Ability_Unequip_Axe, "Player.Ability.Unequip.Axe");
+	UE_DEFINE_GAMEPLAY_TAG(Player_Ability_Unequip_Rifle, "Player.Ability.Unequip.Rifle");
+
 	UE_DEFINE_GAMEPLAY_TAG(Player_Weapon_Axe, "Player.Weapon.Axe");
 	UE_DEFINE_GAMEPLAY_TAG(Player_Weapon_Rifle, "Player.Weapon.Rifle");
 

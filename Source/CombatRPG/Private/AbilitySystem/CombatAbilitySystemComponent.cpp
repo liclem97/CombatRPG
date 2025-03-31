@@ -5,7 +5,7 @@
 
 #include "AbilitySystem/Abilities/HeroGameplayAbility.h"
 
-// 설정한 인풋을 누르면 어빌리티를 발동시킴.
+// 설정한 Key를 누르면 어빌리티를 발동시키는 함수
 void UCombatAbilitySystemComponent::OnAbilityInputPressed(const FGameplayTag& InInputTag)
 {
 	if (!InInputTag.IsValid()) return;
@@ -22,7 +22,7 @@ void UCombatAbilitySystemComponent::OnAbilityInputReleased(const FGameplayTag& I
 {
 }
 
-// 무기 어빌리티를 부여함.
+// 무기 어빌리티를 부여하는 함수
 void UCombatAbilitySystemComponent::GrantHeroWeaponAbilities(const TArray<FHeroAbilitySet>& InDefaultWeaponAbilities, int32 ApplyLevel, TArray<FGameplayAbilitySpecHandle>& OutGrantedAbilitySpecHandles)
 {
 	if (InDefaultWeaponAbilities.IsEmpty()) return;
@@ -38,4 +38,20 @@ void UCombatAbilitySystemComponent::GrantHeroWeaponAbilities(const TArray<FHeroA
 
 		OutGrantedAbilitySpecHandles.AddUnique(GiveAbility(AbilitySpec)); // 어빌리티 부여 후 배열에 저장
 	}
+}
+
+// 무기에 부여된 어빌리티 제거 함수
+void UCombatAbilitySystemComponent::RemoveGrantedHeroWeaponAbilities(UPARAM(ref)TArray<FGameplayAbilitySpecHandle>& InSpecHandlesToRemove)
+{
+	if (InSpecHandlesToRemove.IsEmpty()) return;
+
+	for (const FGameplayAbilitySpecHandle& SpecHandle : InSpecHandlesToRemove)
+	{
+		if (SpecHandle.IsValid())
+		{
+			ClearAbility(SpecHandle);
+		}
+	}
+
+	InSpecHandlesToRemove.Empty();
 }

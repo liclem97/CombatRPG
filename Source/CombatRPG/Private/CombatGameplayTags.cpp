@@ -30,4 +30,6 @@ namespace CombatGameplayTags
 	UE_DEFINE_GAMEPLAY_TAG(Player_Event_Unquip_Axe, "Player.Event.Unquip.Axe");
 	UE_DEFINE_GAMEPLAY_TAG(Player_Event_Equip_Rifle, "Player.Event.Equip.Rifle");
 	UE_DEFINE_GAMEPLAY_TAG(Player_Event_Unquip_Rifle, "Player.Event.Unquip.Rifle");
+
+	UE_DEFINE_GAMEPLAY_TAG(Player_Status_JumpToFinisher, "Player.Status.JumpToFinisher");
 }

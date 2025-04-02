@@ -31,4 +31,7 @@ protected:
 	float EnterRelaxStateThreshold = 5.f; // 설정된 시간 이후 캐릭터가 Relax 상태로 진입함
 
 	float IdleElpasedTime; // 캐릭터가 Idle 상태인 시간
+
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "AnimData|LocomotionData")
+	float YawOffset;
 };

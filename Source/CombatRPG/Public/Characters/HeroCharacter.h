@@ -29,6 +29,9 @@ protected:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	virtual void BeginPlay() override;
 
+	UFUNCTION(BlueprintCallable)
+	void SetUseControllerRotationYaw(bool InUse);
+
 private:
 
 #pragma region Components

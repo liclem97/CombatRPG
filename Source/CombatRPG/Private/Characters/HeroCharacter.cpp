@@ -79,6 +79,11 @@ void AHeroCharacter::BeginPlay()
 	Super::BeginPlay();
 }
 
+void AHeroCharacter::SetUseControllerRotationYaw(bool InUse)
+{
+	bUseControllerRotationYaw = InUse;
+}
+
 void AHeroCharacter::Input_Move(const FInputActionValue& InputActionValue)
 {
 	const FVector2D MovementVector = InputActionValue.Get<FVector2D>();

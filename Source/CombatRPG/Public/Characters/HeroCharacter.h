@@ -28,9 +28,22 @@ protected:
 
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	virtual void BeginPlay() override;
+	virtual void Tick(float DeltaTime) override;
 
 	UFUNCTION(BlueprintCallable)
 	void SetUseControllerRotationYaw(bool InUse);
+
+	UFUNCTION(BlueprintCallable)
+	void SetAiming(bool bAiming);
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Combat")
+	float AimWalkSpeed;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Combat")
+	float AimingFOV;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Camera")
+	float DefaultFOV;
 
 private:
 
@@ -59,6 +72,8 @@ private:
 	void Input_AbilityInputReleased(FGameplayTag InInputTag);
 
 #pragma endregion
+
+	bool bIsAiming;
 
 public:
 	FORCEINLINE UHeroCombatComponent* GetHeroCombatComponent() const { return HeroCombatComponent; }

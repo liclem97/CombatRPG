@@ -18,7 +18,10 @@
 #include "CombatDebugHelper.h"
 
 AHeroCharacter::AHeroCharacter()
-{
+{	
+	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bStartWithTickEnabled = false;
+
 	GetCapsuleComponent()->InitCapsuleSize(42.f, 96.f);
 
 	bUseControllerRotationPitch = false;
@@ -34,6 +37,7 @@ AHeroCharacter::AHeroCharacter()
 	FollowCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FollowCamera"));
 	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
 	FollowCamera->bUsePawnControlRotation = false;
+	FollowCamera->FieldOfView = DefaultFOV;
 
 	GetCharacterMovement()->bOrientRotationToMovement = true;
 	GetCharacterMovement()->RotationRate = FRotator(0.f, 500.f, 0.f);
@@ -41,6 +45,8 @@ AHeroCharacter::AHeroCharacter()
 	GetCharacterMovement()->BrakingDecelerationWalking = 2000.f;
 
 	HeroCombatComponent = CreateDefaultSubobject<UHeroCombatComponent>(TEXT("HeroCombatComponent"));
+
+	bIsAiming = false;
 }
 
 void AHeroCharacter::PossessedBy(AController* NewController)
@@ -79,9 +85,30 @@ void AHeroCharacter::BeginPlay()
 	Super::BeginPlay();
 }
 
+void AHeroCharacter::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+
+	float TargetFOV = bIsAiming ? AimingFOV : DefaultFOV;
+	FollowCamera->FieldOfView = FMath::FInterpTo(FollowCamera->FieldOfView, TargetFOV, DeltaTime, 10.0f);
+}
+
 void AHeroCharacter::SetUseControllerRotationYaw(bool InUse)
 {
 	bUseControllerRotationYaw = InUse;
+}
+
+void AHeroCharacter::SetAiming(bool bAiming)
+{	
+	bIsAiming = bAiming;
+	if (bAiming)
+	{
+		GetCharacterMovement()->MaxWalkSpeed = AimWalkSpeed;
+	}
+	else
+	{
+		GetCharacterMovement()->MaxWalkSpeed = 400.f;
+	}
 }
 
 void AHeroCharacter::Input_Move(const FInputActionValue& InputActionValue)

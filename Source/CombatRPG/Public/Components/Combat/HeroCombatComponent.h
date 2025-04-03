@@ -19,4 +19,7 @@ class COMBATRPG_API UHeroCombatComponent : public UPawnCombatComponent
 public:
 	UFUNCTION(BlueprintPure, Category = "Hero|Combat")
 	AHeroWeapon* GetHeroCarriedWeaponByTag(FGameplayTag InWeaponTag);
+
+	UPROPERTY(BlueprintReadWrite, Category = "Hero|Combat")
+	FGameplayTag RifleAimTag;
 };

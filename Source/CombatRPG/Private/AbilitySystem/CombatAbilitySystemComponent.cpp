@@ -4,6 +4,7 @@
 #include "AbilitySystem/CombatAbilitySystemComponent.h"
 
 #include "AbilitySystem/Abilities/HeroGameplayAbility.h"
+#include "CombatGameplayTags.h"
 
 // 설정한 Key를 누르면 어빌리티를 발동시키는 함수
 void UCombatAbilitySystemComponent::OnAbilityInputPressed(const FGameplayTag& InInputTag)
@@ -20,6 +21,17 @@ void UCombatAbilitySystemComponent::OnAbilityInputPressed(const FGameplayTag& In
 
 void UCombatAbilitySystemComponent::OnAbilityInputReleased(const FGameplayTag& InInputTag)
 {
+	if (!InInputTag.IsValid()) return;
+
+	if (InInputTag == CombatGameplayTags::InputTag_Aim_Rifle)
+	{
+		for (const FGameplayAbilitySpec& AbilitySpec : GetActivatableAbilities())
+		{
+			if (!AbilitySpec.DynamicAbilityTags.HasTagExact(InInputTag)) continue;
+
+			TryActivateAbility(AbilitySpec.Handle);
+		}
+	}
 }
 
 // 무기 어빌리티를 부여하는 함수

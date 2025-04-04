@@ -37,6 +37,12 @@ protected:
 	UFUNCTION(BlueprintCallable)
 	void SetAiming(bool bAiming);
 
+	float CalculateSpeed();
+
+	void AimOffset(float DeltaTime);
+
+	void CalculateAO_Pitch();
+
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Combat")
 	float AimWalkSpeed;
 
@@ -49,7 +55,6 @@ protected:
 private:
 
 #pragma region Components
-
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Camera", meta = (AllowPrivateAccess = "true"))
 	USpringArmComponent* CameraBoom;
 
@@ -62,7 +67,6 @@ private:
 
 
 #pragma region Inputs
-
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "CharacterData", meta = (AllowPrivateAccess = "true"))
 	UDataAsset_InputConfig* InputConfigDataAsset;
 
@@ -71,14 +75,23 @@ private:
 
 	void Input_AbilityInputPressed(FGameplayTag InInputTag);
 	void Input_AbilityInputReleased(FGameplayTag InInputTag);
-
 #pragma endregion
 
 	bool bIsAiming;
+	bool bRotateRootBone;
 
 	ETurningInPlace TurningInPlace;
 	void TurnInPlace(float DeltaTime);
 
+#pragma region AimOffsets
+	float AO_Yaw;
+	float InterpAO_Yaw;
+	float AO_Pitch;
+	FRotator StartingAimRotation;
+#pragma endregion
+
 public:
 	FORCEINLINE UHeroCombatComponent* GetHeroCombatComponent() const { return HeroCombatComponent; }
+	FORCEINLINE float GetAO_Yaw() const { return AO_Yaw; }
+	FORCEINLINE float GetAO_Pitch() const { return AO_Pitch; }
 };

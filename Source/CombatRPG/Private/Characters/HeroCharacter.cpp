@@ -14,6 +14,7 @@
 #include "EnhancedInputSubsystems.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "Kismet/KismetMathLibrary.h"
 
 #include "CombatDebugHelper.h"
 
@@ -91,6 +92,8 @@ void AHeroCharacter::Tick(float DeltaTime)
 
 	float TargetFOV = bIsAiming ? AimingFOV : DefaultFOV; // Aim시 카메라 조절
 	FollowCamera->FieldOfView = FMath::FInterpTo(FollowCamera->FieldOfView, TargetFOV, DeltaTime, 10.0f);
+
+	AimOffset(DeltaTime);
 }
 
 void AHeroCharacter::SetUseControllerRotationYaw(bool InUse)
@@ -108,6 +111,55 @@ void AHeroCharacter::SetAiming(bool bAiming)
 	else
 	{
 		GetCharacterMovement()->MaxWalkSpeed = 400.f;
+	}
+}
+
+float AHeroCharacter::CalculateSpeed()
+{
+	FVector Velocity = GetVelocity();
+	Velocity.Z = 0.f;
+	return Velocity.Size();
+}
+
+void AHeroCharacter::AimOffset(float DeltaTime)
+{
+	if (HeroCombatComponent && !HeroCombatComponent->GetHeroCarriedWeaponByTag(CombatGameplayTags::Player_Weapon_Rifle)) return;
+	
+	float Speed = CalculateSpeed();
+
+	if (Speed == 0.f)
+	{
+		bRotateRootBone = true;
+		FRotator CurrentAimRotation = FRotator(0.f, GetBaseAimRotation().Yaw, 0.f);
+		FRotator DeltaAimRotation = UKismetMathLibrary::NormalizedDeltaRotator(CurrentAimRotation, StartingAimRotation);
+		AO_Yaw = DeltaAimRotation.Yaw;
+		if (TurningInPlace == ETurningInPlace::ETIP_NotTurning)
+		{
+			InterpAO_Yaw = AO_Yaw;
+		}
+		bUseControllerRotationYaw = true;
+		TurnInPlace(DeltaTime);
+	}
+	else if (Speed > 0.f)
+	{
+		bRotateRootBone = false;
+		StartingAimRotation = FRotator(0.f, GetBaseAimRotation().Yaw, 0.f);
+		AO_Yaw = 0.f;
+		bUseControllerRotationYaw = true;
+		TurningInPlace = ETurningInPlace::ETIP_NotTurning;
+	}
+	CalculateAO_Pitch();
+}
+
+void AHeroCharacter::CalculateAO_Pitch()
+{
+	AO_Pitch = GetBaseAimRotation().Pitch;
+	if (AO_Pitch > 90.f && !IsLocallyControlled())
+	{
+		// 피치 값을 [270, 360) 범위에서 [-90, 0) 범위로 매핑
+		FVector2D InRange(270.f, 360.f);
+		FVector2D OutRange(-90.f, 0.f);
+		AO_Pitch = FMath::GetMappedRangeValueClamped(InRange, OutRange, AO_Pitch);
 	}
 }
 
@@ -154,6 +206,28 @@ void AHeroCharacter::Input_AbilityInputPressed(FGameplayTag InInputTag)
 void AHeroCharacter::Input_AbilityInputReleased(FGameplayTag InInputTag)
 {
 	CombatAbilitySystemComponent->OnAbilityInputReleased(InInputTag);
+}
+
+void AHeroCharacter::TurnInPlace(float DeltaTime)
+{
+	if (AO_Yaw > 90.f)
+	{
+		TurningInPlace = ETurningInPlace::ETIP_Right;
+	}
+	else if (AO_Yaw < -90.f)
+	{
+		TurningInPlace = ETurningInPlace::ETIP_Left;
+	}
+	if (TurningInPlace != ETurningInPlace::ETIP_NotTurning)
+	{
+		InterpAO_Yaw = FMath::FInterpTo(InterpAO_Yaw, 0.f, DeltaTime, 4.f);
+		AO_Yaw = InterpAO_Yaw;
+		if (FMath::Abs(AO_Yaw) < 15.f)
+		{
+			TurningInPlace = ETurningInPlace::ETIP_NotTurning;
+			StartingAimRotation = FRotator(0.f, GetBaseAimRotation().Yaw, 0.f);
+		}
+	}
 }
 
 

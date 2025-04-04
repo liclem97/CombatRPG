@@ -65,7 +65,6 @@ private:
 	UHeroCombatComponent* HeroCombatComponent;
 #pragma endregion
 
-
 #pragma region Inputs
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "CharacterData", meta = (AllowPrivateAccess = "true"))
 	UDataAsset_InputConfig* InputConfigDataAsset;

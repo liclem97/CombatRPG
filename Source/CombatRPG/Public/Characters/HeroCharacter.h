@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Characters/BaseCharacter.h"
 #include "GameplayTagContainer.h"
+#include "Types/CombatStructTypes.h"
 #include "HeroCharacter.generated.h"
 
 class USpringArmComponent;
@@ -74,6 +75,9 @@ private:
 #pragma endregion
 
 	bool bIsAiming;
+
+	ETurningInPlace TurningInPlace;
+	void TurnInPlace(float DeltaTime);
 
 public:
 	FORCEINLINE UHeroCombatComponent* GetHeroCombatComponent() const { return HeroCombatComponent; }

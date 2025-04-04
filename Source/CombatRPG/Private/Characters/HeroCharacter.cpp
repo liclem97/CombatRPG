@@ -89,7 +89,7 @@ void AHeroCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	float TargetFOV = bIsAiming ? AimingFOV : DefaultFOV;
+	float TargetFOV = bIsAiming ? AimingFOV : DefaultFOV; // Aim시 카메라 조절
 	FollowCamera->FieldOfView = FMath::FInterpTo(FollowCamera->FieldOfView, TargetFOV, DeltaTime, 10.0f);
 }
 

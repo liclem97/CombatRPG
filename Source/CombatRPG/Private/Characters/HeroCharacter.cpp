@@ -137,7 +137,6 @@ void AHeroCharacter::AimOffset(float DeltaTime)
 		{
 			InterpAO_Yaw = AO_Yaw;
 		}
-		bUseControllerRotationYaw = true;
 		TurnInPlace(DeltaTime);
 	}
 	else if (Speed > 0.f)
@@ -145,7 +144,6 @@ void AHeroCharacter::AimOffset(float DeltaTime)
 		bRotateRootBone = false;
 		StartingAimRotation = FRotator(0.f, GetBaseAimRotation().Yaw, 0.f);
 		AO_Yaw = 0.f;
-		bUseControllerRotationYaw = true;
 		TurningInPlace = ETurningInPlace::ETIP_NotTurning;
 	}
 	CalculateAO_Pitch();

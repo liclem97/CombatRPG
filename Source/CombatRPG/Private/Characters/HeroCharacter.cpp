@@ -54,9 +54,10 @@ void AHeroCharacter::PossessedBy(AController* NewController)
 {
 	Super::PossessedBy(NewController);
 
-	// 소프트 오브젝트 레퍼런스 이므로 항상 유효하지 않기에 Null 체크로 확인함
+	// 소프트 오브젝트가 유효한 리소스를 가리키고 있는지 확인
 	if (!CharacterStartUpData.IsNull())
-	{
+	{	
+		// LoadSynchronous = 소프트 레퍼런스를 즉시 메모리에 로드하고, 로드된 실제 오브젝트 포인터를 반환
 		if (UDataAsset_StartUpDataBase* LoadedData = CharacterStartUpData.LoadSynchronous())
 		{
 			LoadedData->GiveToAbilitySystemComponent(CombatAbilitySystemComponent);

@@ -11,11 +11,20 @@ void UCombatAbilitySystemComponent::OnAbilityInputPressed(const FGameplayTag& In
 {
 	if (!InInputTag.IsValid()) return;
 
-	for (const FGameplayAbilitySpec& AbilitySpec : GetActivatableAbilities())
-	{
-		if (!AbilitySpec.DynamicAbilityTags.HasTagExact(InInputTag)) continue;
+	TArray<FGameplayAbilitySpecHandle> SpecHandles;
 
-		TryActivateAbility(AbilitySpec.Handle);
+	for (const FGameplayAbilitySpec& AbilitySpec : GetActivatableAbilities())
+	{	
+		if (AbilitySpec.DynamicAbilityTags.HasTagExact(InInputTag))
+		{
+			SpecHandles.Add(AbilitySpec.Handle); // 어빌리티에 해당 태그가 있는 경우 핸들에 저장
+		}
+	}
+
+	// 저장된 핸들에 대해 어빌리티 발동
+	for (const FGameplayAbilitySpecHandle& Handle : SpecHandles)
+	{
+		TryActivateAbility(Handle);
 	}
 }
 

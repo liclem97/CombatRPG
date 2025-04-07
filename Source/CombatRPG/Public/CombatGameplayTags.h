@@ -36,4 +36,7 @@ namespace CombatGameplayTags
 
 	COMBATRPG_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Status_JumpToFinisher);
 	COMBATRPG_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Status_AimRifle);
+
+	/** Enemy Tags **/
+	COMBATRPG_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Enemy_Weapon);
 }

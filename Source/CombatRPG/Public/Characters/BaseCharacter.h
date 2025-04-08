@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "AbilitySystemInterface.h"
+#include "Interfaces/PawnCombatInterface.h"
 #include "BaseCharacter.generated.h"
 
 class UCombatAbilitySystemComponent;
@@ -12,7 +13,7 @@ class UCombatAttributeSet;
 class UDataAsset_StartUpDataBase;
 
 UCLASS()
-class COMBATRPG_API ABaseCharacter : public ACharacter, public IAbilitySystemInterface
+class COMBATRPG_API ABaseCharacter : public ACharacter, public IAbilitySystemInterface, public IPawnCombatInterface
 {
 	GENERATED_BODY()
 
@@ -22,6 +23,10 @@ public:
 	//~ Begin IAbilitySystemInterface Interface.
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 	//~ End IAbilitySystemInterface Interface
+
+	//~ Begin IPawnCombatInterface Interface.
+	virtual UPawnCombatComponent* GetPawnCombatComponent() const override;
+	//~ End IPawnCombatInterface Interface
 
 protected:
 	//~ Begin APawn Interface.

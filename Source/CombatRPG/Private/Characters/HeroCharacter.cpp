@@ -50,6 +50,11 @@ AHeroCharacter::AHeroCharacter()
 	bIsAiming = false;
 }
 
+UPawnCombatComponent* AHeroCharacter::GetPawnCombatComponent() const
+{
+	return HeroCombatComponent;
+}
+
 void AHeroCharacter::PossessedBy(AController* NewController)
 {
 	Super::PossessedBy(NewController);

@@ -8,6 +8,7 @@
 
 class UCombatGameplayAbility;
 class UCombatAbilitySystemComponent;
+class UGameplayEffect;
 
 /**
  * 
@@ -28,4 +29,7 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, Category = "StartUpData")
 	TArray<TSubclassOf<UCombatGameplayAbility>> ReactiveAbilities;
+
+	UPROPERTY(EditDefaultsOnly, Category = "StartUpData")
+	TArray<TSubclassOf<UGameplayEffect>> StartUpGameplayEffects;
 };

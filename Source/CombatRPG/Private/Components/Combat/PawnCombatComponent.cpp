@@ -13,7 +13,10 @@ void UPawnCombatComponent::RegisterSpawnedWepaon(FGameplayTag InWeaponTagToRegis
 	checkf(!CharacterCarriedWeaponMap.Contains(InWeaponTagToRegister), TEXT("A named named %s has already been added as carried weapon"), *InWeaponTagToRegister.ToString());
 	check(InWeaponToRegister);
 
-	CharacterCarriedWeaponMap.Emplace(InWeaponTagToRegister, InWeaponToRegister);
+	CharacterCarriedWeaponMap.Emplace(InWeaponTagToRegister, InWeaponToRegister); // 무기를 태그와 함께 맵에 저장
+
+	InWeaponToRegister->OnWeaponHitTarget.BindUObject(this, &ThisClass::OnHitTargetActor);
+	InWeaponToRegister->OnWeaponPulledFromTarget.BindUObject(this, &ThisClass::OnWeaponFulledFromTargetActor);
 
 	if (bRegisterAsEquippedWeapon)
 	{
@@ -64,4 +67,12 @@ void UPawnCombatComponent::ToggleWeaponCollision(bool bShouldEnable, EToggleDama
 	}
 
 	
+}
+
+void UPawnCombatComponent::OnHitTargetActor(AActor* HitActor)
+{
+}
+
+void UPawnCombatComponent::OnWeaponFulledFromTargetActor(AActor* InteractedActor)
+{
 }

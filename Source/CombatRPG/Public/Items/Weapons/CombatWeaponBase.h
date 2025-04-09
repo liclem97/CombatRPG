@@ -8,6 +8,8 @@
 
 class UBoxComponent;
 
+DECLARE_DELEGATE_OneParam(FOnTargetInteractedDelegate, AActor*)
+
 UCLASS()
 class COMBATRPG_API ACombatWeaponBase : public AActor
 {
@@ -15,6 +17,9 @@ class COMBATRPG_API ACombatWeaponBase : public AActor
 	
 public:	
 	ACombatWeaponBase();
+
+	FOnTargetInteractedDelegate OnWeaponHitTarget;
+	FOnTargetInteractedDelegate OnWeaponPulledFromTarget;
 
 protected:
 	UFUNCTION()

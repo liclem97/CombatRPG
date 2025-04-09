@@ -22,4 +22,7 @@ public:
 
 	UPROPERTY(BlueprintReadWrite, Category = "Hero|Combat")
 	FGameplayTag RifleAimTag;
+
+	virtual void OnHitTargetActor(AActor* HitActor) override;
+	virtual void OnWeaponFulledFromTargetActor(AActor* InteractedActor) override;
 };

@@ -3,6 +3,7 @@
 #pragma once
 
 #include "GameplayTagContainer.h"
+#include "ScalableFloat.h"
 #include "CombatStructTypes.generated.h"
 
 class UHeroLinkedAnimLayer;
@@ -36,14 +37,8 @@ struct FHeroWeaponData
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta =(TitleProperty = "InputTag"))
 	TArray<FHeroAbilitySet> DefaultWeaponAbilities;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	FScalableFloat WeaponBaseDamage;
 };
 
-UENUM(BlueprintType)
-enum class ETurningInPlace : uint8
-{
-	ETIP_Left UMETA(DisplayName = "Turning Left"),
-	ETIP_Right UMETA(DisplayName = "Turning Right"),
-	ETIP_NotTurning UMETA(DisplayName = "Not Turning"),
-
-	ETIP_MAX UMETA(DisplayName = "DefaultMAX")
-};

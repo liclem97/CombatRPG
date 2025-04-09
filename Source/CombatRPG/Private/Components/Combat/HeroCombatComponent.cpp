@@ -9,9 +9,19 @@
 
 #include "CombatDebugHelper.h"
 
-AHeroWeapon* UHeroCombatComponent::GetHeroCarriedWeaponByTag(FGameplayTag InWeaponTag)
+AHeroWeapon* UHeroCombatComponent::GetHeroCarriedWeaponByTag(FGameplayTag InWeaponTag) const
 {   
     return Cast<AHeroWeapon>(GetCharacterCarriedWeaponByTag(InWeaponTag));
+}
+
+AHeroWeapon* UHeroCombatComponent::GetHeroCurrentEquippedWeapon() const
+{   
+    return Cast<AHeroWeapon>(GetCharacterCurrentEquippedWeapon());
+}
+
+float UHeroCombatComponent::GetHeroCurrentEquippedWeaponDamageAtLevel(float InLevel) const
+{
+    return GetHeroCurrentEquippedWeapon()->HeroWeaponData.WeaponBaseDamage.GetValueAtLevel(InLevel);
 }
 
 void UHeroCombatComponent::OnHitTargetActor(AActor* HitActor)

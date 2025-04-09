@@ -5,7 +5,7 @@
 #include "CoreMinimal.h"
 #include "Characters/BaseCharacter.h"
 #include "GameplayTagContainer.h"
-#include "Types/CombatStructTypes.h"
+#include "Types/CombatEnumTypes.h"
 #include "HeroCharacter.generated.h"
 
 class USpringArmComponent;

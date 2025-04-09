@@ -42,4 +42,5 @@ namespace CombatGameplayTags
 
 	/** Shared Tags **/
 	COMBATRPG_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Shared_Event_MeleeHit);
+	COMBATRPG_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Shared_SetByCaller_BaseDamage);
 }

@@ -24,6 +24,7 @@ void UHeroCombatComponent::OnHitTargetActor(AActor* HitActor)
     Data.Instigator = GetOwningPawn();
     Data.Target = HitActor;
 
+    // 소지 액터에게 이벤트 태그를 보냄
     UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(
         GetOwningPawn(),
         CombatGameplayTags::Shared_Event_MeleeHit,

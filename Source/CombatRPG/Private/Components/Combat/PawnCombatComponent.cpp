@@ -3,6 +3,7 @@
 
 #include "Components/Combat/PawnCombatComponent.h"
 
+#include "Components/BoxComponent.h"
 #include "Items/Weapons/CombatWeaponBase.h"
 
 #include "CombatDebugHelper.h"
@@ -41,4 +42,26 @@ ACombatWeaponBase* UPawnCombatComponent::GetCharacterCurrentEquippedWeapon() con
 	}
 
 	return GetCharacterCarriedWeaponByTag(CurrentEquippedWeaponTag);
+}
+
+// 무기 콜리전 활성화 및 비활성화 함수
+void UPawnCombatComponent::ToggleWeaponCollision(bool bShouldEnable, EToggleDamageType ToggleDamageType)
+{
+	if (ToggleDamageType == EToggleDamageType::CurrentEquippedWeapon)
+	{
+		ACombatWeaponBase* WeaponToToggle = GetCharacterCurrentEquippedWeapon();
+
+		check(WeaponToToggle);
+
+		if (bShouldEnable)
+		{
+			WeaponToToggle->GetWeaponCollisionBox()->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
+			Debug::Print(WeaponToToggle->GetName() + TEXT(" Collision Enabled"), FColor::Green);
+		}
+		else
+		{
+			WeaponToToggle->GetWeaponCollisionBox()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+			Debug::Print(WeaponToToggle->GetName() + TEXT(" Collision Disabled"), FColor::Red);
+		}
+	}
 }

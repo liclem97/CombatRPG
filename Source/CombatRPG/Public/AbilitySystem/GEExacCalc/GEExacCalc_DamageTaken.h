@@ -16,4 +16,6 @@ class COMBATRPG_API UGEExacCalc_DamageTaken : public UGameplayEffectExecutionCal
 	
 public:
 	UGEExacCalc_DamageTaken();
+
+	virtual void Execute_Implementation(const FGameplayEffectCustomExecutionParameters& ExecutionParams, FGameplayEffectCustomExecutionOutput& OutExecutionOutput) const;
 };

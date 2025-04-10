@@ -14,4 +14,6 @@ class COMBATRPG_API UGEExacCalc_DamageTaken : public UGameplayEffectExecutionCal
 {
 	GENERATED_BODY()
 	
+public:
+	UGEExacCalc_DamageTaken();
 };

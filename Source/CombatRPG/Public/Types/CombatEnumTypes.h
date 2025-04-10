@@ -23,3 +23,10 @@ enum class ECombatValidType : uint8
 	Valid,
 	InValid
 };
+
+UENUM()
+enum class ECombatSuccessType : uint8
+{
+	Successful,
+	Failed
+};

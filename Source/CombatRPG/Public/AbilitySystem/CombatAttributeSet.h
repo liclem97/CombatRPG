@@ -24,13 +24,15 @@ class COMBATRPG_API UCombatAttributeSet : public UAttributeSet
 public:
 	UCombatAttributeSet();
 
+	virtual void PostGameplayEffectExecute(const struct FGameplayEffectModCallbackData& Data) override;
+
 	UPROPERTY(BlueprintReadOnly, Category = "Health")
 	FGameplayAttributeData CurrentHealth;
 	ATTRIBUTE_ACCESSORS(UCombatAttributeSet, CurrentHealth)
 
 	UPROPERTY(BlueprintReadOnly, Category = "Health")
-	FGameplayAttributeData MaxtHealth;
-	ATTRIBUTE_ACCESSORS(UCombatAttributeSet, MaxtHealth)
+	FGameplayAttributeData MaxHealth;
+	ATTRIBUTE_ACCESSORS(UCombatAttributeSet, MaxHealth)
 
 	UPROPERTY(BlueprintReadOnly, Category = "Rage")
 	FGameplayAttributeData CurrentRage;

@@ -75,7 +75,6 @@ void UGEExacCalc_DamageTaken::Execute_Implementation(const FGameplayEffectCustom
 	// 레벨에 따른 플레이어의 기본 공격력
 	float SourceAttackPower = 0.f;
 	ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(GetCombatDamageCapture().AttackPowerDef, EvaluateParameters, SourceAttackPower);
-	Debug::Print(TEXT("SourceAttackPower"), SourceAttackPower);
 
 	float BaseDamage = 0.f;
 	int32 UsedLightAttackComboCount = 0;
@@ -87,26 +86,22 @@ void UGEExacCalc_DamageTaken::Execute_Implementation(const FGameplayEffectCustom
 		if (TagMagnitude.Key.MatchesTagExact(CombatGameplayTags::Shared_SetByCaller_BaseDamage))
 		{
 			BaseDamage = TagMagnitude.Value; // 레벨에 따른 무기 공격력
-			Debug::Print(TEXT("BaseDamage"), BaseDamage);
 		}
 
 		if (TagMagnitude.Key.MatchesTagExact(CombatGameplayTags::Player_SetByCaller_AttackType_Light))
 		{
 			UsedLightAttackComboCount = TagMagnitude.Value;
-			Debug::Print(TEXT("UsedLightAttackComboCount"), UsedLightAttackComboCount);
 		}
 
 		if (TagMagnitude.Key.MatchesTagExact(CombatGameplayTags::Player_SetByCaller_AttackType_Heavy))
 		{
 			UsedHeavyAttackComboCount = TagMagnitude.Value;
-			Debug::Print(TEXT("UsedHeavyAttackComboCount"), UsedHeavyAttackComboCount);
 		}
 	}
 
 	// 방어자(타겟)의 방어력 계산
 	float TargetDefensePower = 0.f;
 	ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(GetCombatDamageCapture().DefensePowerDef, EvaluateParameters, TargetDefensePower);
-	Debug::Print(TEXT("TargetDefensePower"), TargetDefensePower);
 
 	// 콤보 카운트에 따른 무기 공격력 증가
 	if (UsedLightAttackComboCount != 0)
@@ -114,7 +109,6 @@ void UGEExacCalc_DamageTaken::Execute_Implementation(const FGameplayEffectCustom
 		const float DamageIncreasePercentLight = (UsedLightAttackComboCount - 1) * 0.05f + 1.f;
 
 		BaseDamage *= DamageIncreasePercentLight;
-		Debug::Print(TEXT("ScaledBaseDamageLight"), BaseDamage);
 	}
 
 	if (UsedHeavyAttackComboCount != 0)
@@ -122,7 +116,6 @@ void UGEExacCalc_DamageTaken::Execute_Implementation(const FGameplayEffectCustom
 		const float DamageIncresePercentHeavy = UsedHeavyAttackComboCount * 0.15f + 1.f;
 
 		BaseDamage *= DamageIncresePercentHeavy;
-		Debug::Print(TEXT("ScaledBaseDamageHeavy"), BaseDamage);
 	}
 
 	// 무기 공격력 * 플레이어 공격력 / 타깃 방어력
@@ -133,7 +126,7 @@ void UGEExacCalc_DamageTaken::Execute_Implementation(const FGameplayEffectCustom
 	{
 		OutExecutionOutput.AddOutputModifier( 
 			FGameplayModifierEvaluatedData(	// 실제 계산된 데미지를 타겟에게 적용
-				GetCombatDamageCapture().DamageTakenProperty, // 영향을 줄 타겟 속성
+				GetCombatDamageCapture().DamageTakenProperty, // 영향을 줄 타겟 속성 AttributeSet의 PostGameplayEffectExecute를 동작시킴
 				EGameplayModOp::Override, // 적용 방식
 				FinalDamageDone // 최종 계산된 데미지 값
 			)

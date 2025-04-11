@@ -7,7 +7,7 @@
 
 AEnemyCharacter* UEnemyGameplayAbility::GetEnemyCharacterFromActorInfo()
 {
-    if (CachedEnemyCharacter.IsValid())
+    if (!CachedEnemyCharacter.IsValid())
     {
         CachedEnemyCharacter = Cast<AEnemyCharacter>(CurrentActorInfo->AvatarActor);
     }

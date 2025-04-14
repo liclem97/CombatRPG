@@ -3,6 +3,8 @@
 
 #include "AbilitySystem/CombatAttributeSet.h"
 
+#include "CombatFunctionLibrary.h"
+#include "CombatGameplayTags.h"
 #include "GameplayEffectExtension.h"
 
 #include "CombatDebugHelper.h"
@@ -52,8 +54,8 @@ void UCombatAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCall
 		//TODO: Notify the UI
 
 		if (NewCurrentHealth == 0.f)
-		{
-			//TODO: Character die
+		{	// 타겟 액터에 Status_Daed 태그 추가
+			UCombatFunctionLibrary::AddGameplayTagToActorIfNone(Data.Target.GetAvatarActor(), CombatGameplayTags::Shared_Status_Dead);
 		}
 	}
 }

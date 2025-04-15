@@ -23,16 +23,17 @@ class COMBATRPG_API AHeroCharacter : public ABaseCharacter
 public:
 	AHeroCharacter();
 
-	//~ Begin IPawnCombatInterface Interface.
+	//~ Begin IPawnCombatInterface Interface
 	virtual UPawnCombatComponent* GetPawnCombatComponent() const override;
 	//~ End IPawnCombatInterface Interface
 
 	//~ Begin IPawnUIInterface Interface
 	virtual UPawnUIComponent* GetPawnUIComponent() const override;
+	virtual UHeroUIComponent* GetHeroUIComponent() const override;
 	//~ End IPawnUIInterface Interface
 
 protected:
-	//~ Begin APawn Interface.
+	//~ Begin APawn Interface
 	virtual void PossessedBy(AController* NewController) override;
 	//~ End APawn Interface
 

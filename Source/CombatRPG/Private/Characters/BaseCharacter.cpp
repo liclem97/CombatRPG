@@ -5,6 +5,7 @@
 
 #include "AbilitySystem/CombatAbilitySystemComponent.h"
 #include "AbilitySystem/CombatAttributeSet.h"
+#include "Components/UI/PawnUIComponent.h"
 
 ABaseCharacter::ABaseCharacter()
 {
@@ -23,6 +24,11 @@ UAbilitySystemComponent* ABaseCharacter::GetAbilitySystemComponent() const
 }
 
 UPawnCombatComponent* ABaseCharacter::GetPawnCombatComponent() const
+{
+	return nullptr;
+}
+
+UPawnUIComponent* ABaseCharacter::GetPawnUIComponent() const
 {
 	return nullptr;
 }

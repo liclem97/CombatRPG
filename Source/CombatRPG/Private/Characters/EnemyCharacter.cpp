@@ -5,9 +5,11 @@
 
 #include "Components/Combat/EnemyCombatComponent.h"
 #include "Components/UI/EnemyUIComponent.h"
+#include "Components/WidgetComponent.h"
 #include "DataAssets/StartUpData/DataAsset_EnemyStartUpData.h"
 #include "Engine/AssetManager.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "Widgets/CombatWidgetBase.h"
 
 #include "CombatDebugHelper.h"
 
@@ -27,6 +29,9 @@ AEnemyCharacter::AEnemyCharacter()
 
 	EnemyCombatComponent = CreateDefaultSubobject<UEnemyCombatComponent>("EnemyCombatComponent");
 	EnemyUIComponent = CreateDefaultSubobject<UEnemyUIComponent>("EnemyUIComponent");
+
+	EnemyHealthWidgetComponent = CreateDefaultSubobject<UWidgetComponent>("EnemyHealthWidgetComponent");
+	EnemyHealthWidgetComponent->SetupAttachment(GetMesh());
 }
 
 UPawnCombatComponent* AEnemyCharacter::GetPawnCombatComponent() const
@@ -42,6 +47,16 @@ UPawnUIComponent* AEnemyCharacter::GetPawnUIComponent() const
 UEnemyUIComponent* AEnemyCharacter::GetEnemyUIComponent() const
 {
 	return EnemyUIComponent;
+}
+
+void AEnemyCharacter::BeginPlay()
+{
+	Super::BeginPlay();
+
+	if (UCombatWidgetBase* HealthWidget = Cast<UCombatWidgetBase>(EnemyHealthWidgetComponent->GetUserWidgetObject()))
+	{
+		HealthWidget->InitEnemyCreatedWidget(this);
+	}
 }
 
 void AEnemyCharacter::PossessedBy(AController* NewController)

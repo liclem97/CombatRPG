@@ -19,6 +19,10 @@ class COMBATRPG_API ACombatAIController : public AAIController
 public:
 	ACombatAIController(const FObjectInitializer& ObjectInitializer);
 
+	//~ Begin IGenericTeamAgentInterface Interface
+	virtual ETeamAttitude::Type GetTeamAttitudeTowards(const AActor& Other) const;
+	//~ End IGenericTeamAgentInterface Interface
+
 protected:
 	UFUNCTION()
 	virtual void OnEnemyPerceptionUpdated(AActor* Actor, FAIStimulus Stimulus);

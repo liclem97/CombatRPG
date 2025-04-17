@@ -30,8 +30,29 @@ ACombatAIController::ACombatAIController(const FObjectInitializer& ObjectInitial
 	EnemyPerceptionComponent->ConfigureSense(*AISenseConfig_Sight);
 	EnemyPerceptionComponent->SetDominantSense(UAISenseConfig_Sight::StaticClass());
 	EnemyPerceptionComponent->OnTargetPerceptionUpdated.AddUniqueDynamic(this, &ThisClass::OnEnemyPerceptionUpdated);
+
+	SetGenericTeamId(FGenericTeamId(1)); // 적의 팀 ID는 1
+}
+
+ETeamAttitude::Type ACombatAIController::GetTeamAttitudeTowards(const AActor& Other) const
+{
+	const APawn* PawnToCheck = Cast<const APawn>(&Other);
+		
+	// 감지된 컨트롤러의 GenericTeamAgentInterface를 가져옴
+	const IGenericTeamAgentInterface* OtherTeamAgent = Cast<const IGenericTeamAgentInterface>(PawnToCheck->GetController());
+	
+	if (OtherTeamAgent && OtherTeamAgent->GetGenericTeamId() != GetGenericTeamId())
+	{
+		return ETeamAttitude::Hostile; // 인터페이스가 유효하고 서로 컨트롤러의 Team ID가 다르면 적대 상태 반환
+	}
+
+	return ETeamAttitude::Friendly; // 우호 상태 반환
 }
 
 void ACombatAIController::OnEnemyPerceptionUpdated(AActor* Actor, FAIStimulus Stimulus)
 {
+	if (Stimulus.WasSuccessfullySensed() && Actor) // 성공적으로 감지되고 액터가 유효함
+	{
+		Debug::Print(Actor->GetActorNameOrLabel() + TEXT(" was sensed"), FColor::Green);
+	}
 }

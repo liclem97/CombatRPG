@@ -3,6 +3,7 @@
 
 #include "Controllers/CombatAIController.h"
 
+#include "BehaviorTree/BlackboardComponent.h"
 #include "Navigation/CrowdFollowingComponent.h"
 #include "Perception/AIPerceptionComponent.h"
 #include "Perception/AISenseConfig_Sight.h"
@@ -53,6 +54,9 @@ void ACombatAIController::OnEnemyPerceptionUpdated(AActor* Actor, FAIStimulus St
 {
 	if (Stimulus.WasSuccessfullySensed() && Actor) // 성공적으로 감지되고 액터가 유효함
 	{
-		Debug::Print(Actor->GetActorNameOrLabel() + TEXT(" was sensed"), FColor::Green);
+		if (UBlackboardComponent* BlackboardComponent = GetBlackboardComponent())
+		{
+			BlackboardComponent->SetValueAsObject(FName("TargetActor"), Actor); // 블랙보드 키 설정
+		}
 	}
 }

@@ -6,6 +6,8 @@
 #include "AIController.h"
 #include "CombatAIController.generated.h"
 
+class UAIPerceptionComponent;
+class UAISenseConfig_Sight;
 /**
  * 
  */
@@ -17,4 +19,13 @@ class COMBATRPG_API ACombatAIController : public AAIController
 public:
 	ACombatAIController(const FObjectInitializer& ObjectInitializer);
 
+protected:
+	UFUNCTION()
+	virtual void OnEnemyPerceptionUpdated(AActor* Actor, FAIStimulus Stimulus);
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	UAIPerceptionComponent* EnemyPerceptionComponent;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	UAISenseConfig_Sight* AISenseConfig_Sight; // AI ½Ã¾ß
 };

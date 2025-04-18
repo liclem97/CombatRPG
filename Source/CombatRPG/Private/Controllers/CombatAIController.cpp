@@ -37,9 +37,9 @@ ETeamAttitude::Type ACombatAIController::GetTeamAttitudeTowards(const AActor& Ot
 	// 감지된 컨트롤러의 GenericTeamAgentInterface를 가져옴
 	const IGenericTeamAgentInterface* OtherTeamAgent = Cast<const IGenericTeamAgentInterface>(PawnToCheck->GetController());
 	
-	if (OtherTeamAgent && OtherTeamAgent->GetGenericTeamId() != GetGenericTeamId())
+	if (OtherTeamAgent && OtherTeamAgent->GetGenericTeamId() < GetGenericTeamId())
 	{
-		return ETeamAttitude::Hostile; // 인터페이스가 유효하고 서로 컨트롤러의 Team ID가 다르면 적대 상태 반환
+		return ETeamAttitude::Hostile; // 인터페이스가 유효하고 자신의 Team ID보다 작으면 적대
 	}
 
 	return ETeamAttitude::Friendly; // 우호 상태 반환
@@ -72,12 +72,15 @@ void ACombatAIController::BeginPlay()
 }
 
 void ACombatAIController::OnEnemyPerceptionUpdated(AActor* Actor, FAIStimulus Stimulus)
-{
-	if (Stimulus.WasSuccessfullySensed() && Actor) // 성공적으로 감지되고 액터가 유효함
+{	
+	if (UBlackboardComponent* BlackboardComponent = GetBlackboardComponent())
 	{
-		if (UBlackboardComponent* BlackboardComponent = GetBlackboardComponent())
+		if (!BlackboardComponent->GetValueAsObject(FName("TargetActor"))) // 타겟이 유효하지 않을 때만 실행
 		{
-			BlackboardComponent->SetValueAsObject(FName("TargetActor"), Actor); // 블랙보드 키 설정
+			if (Stimulus.WasSuccessfullySensed() && Actor) // 성공적으로 감지되고 액터가 유효함
+			{
+				BlackboardComponent->SetValueAsObject(FName("TargetActor"), Actor); // 블랙보드 키 설정
+			}
 		}
 	}
 }

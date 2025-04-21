@@ -15,7 +15,8 @@ public class CombatRPG : ModuleRules
 			"InputCore",
 			"GameplayTags",
             "EnhancedInput",
-			"GameplayTasks"
+			"GameplayTasks",
+			"AnimGraphRuntime"
         });
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });

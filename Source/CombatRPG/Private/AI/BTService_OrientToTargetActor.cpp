@@ -26,10 +26,10 @@ void UBTService_OrientToTargetActor::InitializeFromAsset(UBehaviorTree& Asset)
 {
 	Super::InitializeFromAsset(Asset);
 
-	// 블랙보드 에셋이 유효한 경우, 타겟 액터 키를 해당 블랙보드에서 resolve 함
+	// 블랙보드 에셋을 기준으로 InTargetActorKey를 초기화함
 	if (UBlackboardData* BBAsset = GetBlackboardAsset())
 	{
-		InTargetActorKey.ResolveSelectedKey(*BBAsset); // 선택된 키를 블랙보드에서 해석하여 연결
+		InTargetActorKey.ResolveSelectedKey(*BBAsset);
 	}
 }
 

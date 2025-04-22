@@ -6,6 +6,7 @@
 #include "AbilitySystem/CombatAbilitySystemComponent.h"
 #include "AbilitySystem/CombatAttributeSet.h"
 #include "Components/UI/PawnUIComponent.h"
+#include "MotionWarpingComponent.h"
 
 ABaseCharacter::ABaseCharacter()
 {
@@ -16,6 +17,7 @@ ABaseCharacter::ABaseCharacter()
 
 	CombatAbilitySystemComponent = CreateDefaultSubobject<UCombatAbilitySystemComponent>(TEXT("CombatAbilitySystemComponent"));
 	CombatAttributeSet = CreateDefaultSubobject<UCombatAttributeSet>(TEXT("CombatAttributeSet"));
+	MotionWarpingComponent = CreateDefaultSubobject<UMotionWarpingComponent>(TEXT("MotionWarpingComponent"));
 }
 
 UAbilitySystemComponent* ABaseCharacter::GetAbilitySystemComponent() const

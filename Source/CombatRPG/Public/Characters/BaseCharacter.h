@@ -12,6 +12,7 @@
 class UCombatAbilitySystemComponent;
 class UCombatAttributeSet;
 class UDataAsset_StartUpDataBase;
+class UMotionWarpingComponent;
 
 UCLASS()
 class COMBATRPG_API ABaseCharacter : public ACharacter, public IAbilitySystemInterface, public IPawnCombatInterface, public IPawnUIInterface
@@ -43,6 +44,9 @@ protected:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "AbilitySystem")
 	UCombatAttributeSet* CombatAttributeSet;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "MotionWarping")
+	UMotionWarpingComponent* MotionWarpingComponent;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "CharacterData")
 	TSoftObjectPtr<UDataAsset_StartUpDataBase> CharacterStartUpData;

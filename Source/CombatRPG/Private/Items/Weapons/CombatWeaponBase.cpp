@@ -3,6 +3,7 @@
 
 #include "Items/Weapons/CombatWeaponBase.h"
 
+#include "CombatFunctionLibrary.h"
 #include "Components/BoxComponent.h"
 
 #include "CombatDebugHelper.h"
@@ -30,11 +31,10 @@ void ACombatWeaponBase::OnCollisionBoxBeginOverlap(UPrimitiveComponent* Overlapp
 
 	if (APawn* HitPawn = Cast<APawn>(OtherActor))
 	{
-		if (WeaponOwningPawn != HitPawn)
+		if (UCombatFunctionLibrary::IsTargetPawnHostile(WeaponOwningPawn, HitPawn))
 		{
 			OnWeaponHitTarget.ExecuteIfBound(OtherActor);
 		}
-		// TODO: 적 캐릭터를 위한 히트체크 구현
 	}
 }
 
@@ -46,11 +46,10 @@ void ACombatWeaponBase::OnCollisionBoxEndOverlap(UPrimitiveComponent* Overlapped
 
 	if (APawn* HitPawn = Cast<APawn>(OtherActor))
 	{
-		if (WeaponOwningPawn != HitPawn)
+		if (UCombatFunctionLibrary::IsTargetPawnHostile(WeaponOwningPawn, HitPawn))
 		{
 			OnWeaponPulledFromTarget.ExecuteIfBound(OtherActor);
 		}
-		// TODO: 적 캐릭터를 위한 히트체크 구현
 	}
 }
 

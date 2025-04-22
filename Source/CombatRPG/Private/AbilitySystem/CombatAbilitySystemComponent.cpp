@@ -76,3 +76,29 @@ void UCombatAbilitySystemComponent::RemoveGrantedHeroWeaponAbilities(UPARAM(ref)
 
 	InSpecHandlesToRemove.Empty();
 }
+
+// 게임플레이 태그에 맞는 능력의 활성화 시도
+bool UCombatAbilitySystemComponent::TryActivateAbilityByTag(FGameplayTag AbilityTagToActivate)
+{
+	check(AbilityTagToActivate.IsValid());
+
+	TArray<FGameplayAbilitySpec*> FoundAbilitySpecs;
+
+	// 태그에 맞는 게임플레이 어빌리티를 배열에 추가
+	GetActivatableGameplayAbilitySpecsByAllMatchingTags(AbilityTagToActivate.GetSingleTagContainer(), FoundAbilitySpecs);
+
+	if (!FoundAbilitySpecs.IsEmpty())
+	{
+		// 찾은 능력들 중 하나를 랜덤으로 실행
+		const int32 RandomAbilityIndex = FMath::RandRange(0, FoundAbilitySpecs.Num() - 1);
+		FGameplayAbilitySpec* SpecToActivate = FoundAbilitySpecs[RandomAbilityIndex];
+
+		check(SpecToActivate);
+
+		if (!SpecToActivate->IsActive()) // 능력이 비활성화 중일 때 활성화 시도
+		{
+			return TryActivateAbility(SpecToActivate->Handle);
+		}
+	}
+	return false;
+}

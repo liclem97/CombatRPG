@@ -7,6 +7,7 @@
 #include "AbilitySystemBlueprintLibrary.h"
 #include "GenericTeamAgentInterface.h"
 #include "Interfaces/PawnCombatInterface.h"
+#include "Kismet/KismetMathLibrary.h"
 
 UCombatAbilitySystemComponent* UCombatFunctionLibrary::NativeGetCombatASCFromActor(AActor* InActor)
 {	
@@ -86,4 +87,27 @@ bool UCombatFunctionLibrary::IsTargetPawnHostile(APawn* QueryPawn, APawn* Target
 float UCombatFunctionLibrary::GetScalableFloatValueAtLevel(const FScalableFloat& InScalableFloat, float InLevel)
 {
 	return InScalableFloat.GetValueAtLevel(InLevel);
+}
+
+FGameplayTag UCombatFunctionLibrary::ComputeHitReactDirectionTag(AActor* InAttacker, AActor* InVictim, float& OutAngleDifference)
+{	
+	check(InAttacker && InVictim);
+
+	const FVector VictimForward = InVictim->GetActorForwardVector();
+	const FVector VictimToAttackerNormalized = (InAttacker->GetActorLocation() - InVictim->GetActorLocation()).GetSafeNormal();
+
+	// 피해자의 정면과 공격자 방향 벡터 간의 내적 값
+	const float DotResult = FVector::DotProduct(VictimForward, VictimToAttackerNormalized);
+
+	// 내적 값을 통해 각도 차이를 구함
+	OutAngleDifference = UKismetMathLibrary::DegAcos(DotResult);
+
+	const FVector CrossResult = FVector::CrossProduct(VictimForward, VictimToAttackerNormalized);
+
+	if (CrossResult.Z < 0.f) // 공격자가 왼쪽에 있으면 음수, 오른쪽에 있으면 양수
+	{
+		OutAngleDifference *= -1.f;
+	}
+
+	return FGameplayTag();
 }

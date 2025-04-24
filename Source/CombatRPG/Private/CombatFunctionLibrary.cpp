@@ -5,6 +5,7 @@
 
 #include "AbilitySystem/CombatAbilitySystemComponent.h"
 #include "AbilitySystemBlueprintLibrary.h"
+#include "CombatGameplayTags.h"
 #include "GenericTeamAgentInterface.h"
 #include "Interfaces/PawnCombatInterface.h"
 #include "Kismet/KismetMathLibrary.h"
@@ -109,5 +110,22 @@ FGameplayTag UCombatFunctionLibrary::ComputeHitReactDirectionTag(AActor* InAttac
 		OutAngleDifference *= -1.f;
 	}
 
-	return FGameplayTag();
+	if (OutAngleDifference >= -45.f && OutAngleDifference <= 45.f)
+	{
+		return CombatGameplayTags::Shared_Status_HitReact_Front;
+	}
+	else if (OutAngleDifference < -45.f && OutAngleDifference >= -135.f)
+	{
+		return CombatGameplayTags::Shared_Status_HitReact_Left;
+	}
+	else if (OutAngleDifference < -135.f || OutAngleDifference > 135.f)
+	{
+		return CombatGameplayTags::Shared_Status_HitReact_Back;
+	}
+	else if (OutAngleDifference > 45.f && OutAngleDifference <= 135.f)
+	{
+		return CombatGameplayTags::Shared_Status_HitReact_Right;
+	}
+
+	return CombatGameplayTags::Shared_Status_HitReact_Front;
 }

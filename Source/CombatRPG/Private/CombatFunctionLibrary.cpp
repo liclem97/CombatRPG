@@ -82,3 +82,8 @@ bool UCombatFunctionLibrary::IsTargetPawnHostile(APawn* QueryPawn, APawn* Target
 
 	return false;
 }
+
+float UCombatFunctionLibrary::GetScalableFloatValueAtLevel(const FScalableFloat& InScalableFloat, float InLevel)
+{
+	return InScalableFloat.GetValueAtLevel(InLevel);
+}

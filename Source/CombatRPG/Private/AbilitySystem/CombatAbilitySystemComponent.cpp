@@ -30,16 +30,21 @@ void UCombatAbilitySystemComponent::OnAbilityInputPressed(const FGameplayTag& In
 
 void UCombatAbilitySystemComponent::OnAbilityInputReleased(const FGameplayTag& InInputTag)
 {
-	if (!InInputTag.IsValid()) return;
+	if (!InInputTag.IsValid() || !InInputTag.MatchesTag(CombatGameplayTags::InputTag_MustBeHeld)) return;
+	
+	TArray<FGameplayAbilitySpecHandle> SpecHandles;
 
-	if (InInputTag == CombatGameplayTags::InputTag_Aim_Rifle)
+	for (const FGameplayAbilitySpec& AbilitySpec : GetActivatableAbilities())
 	{
-		for (const FGameplayAbilitySpec& AbilitySpec : GetActivatableAbilities())
+		if (AbilitySpec.DynamicAbilityTags.HasTagExact(InInputTag) && AbilitySpec.IsActive())
 		{
-			if (!AbilitySpec.DynamicAbilityTags.HasTagExact(InInputTag)) continue;
-
-			TryActivateAbility(AbilitySpec.Handle);
+			SpecHandles.Add(AbilitySpec.Handle);
 		}
+	}
+
+	for (const FGameplayAbilitySpecHandle& Handle : SpecHandles)
+	{
+		CancelAbilityHandle(Handle);
 	}
 }
 

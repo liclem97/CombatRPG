@@ -4,6 +4,7 @@
 #include "Components/Combat/EnemyCombatComponent.h"
 
 #include "AbilitySystemBlueprintLibrary.h"
+#include "CombatFunctionLibrary.h"
 #include "CombatGameplayTags.h"
 
 #include "CombatDebugHelper.h"
@@ -17,12 +18,12 @@ void UEnemyCombatComponent::OnHitTargetActor(AActor* HitActor)
 	// TODO : block 체크 구현
 	bool bIsValidBlock = false;
 
-	const bool bIsPlayerBlocking = false;
+	const bool bIsPlayerBlocking = UCombatFunctionLibrary::NativeDoesActorHaveTag(HitActor, CombatGameplayTags::Player_Status_Blocking);
 	const bool bIsMyAttackUnblockable = false;
 
 	if (bIsPlayerBlocking && !bIsMyAttackUnblockable)
 	{
-		// TODO : 블록이 올바른지 확인
+		bIsValidBlock = UCombatFunctionLibrary::IsValidBlock(GetOwningPawn(), HitActor);
 	}
 
 	FGameplayEventData EventData;
